@@ -48,7 +48,7 @@ class MyDB {
 	 * @returns {Ticket}
 	 */
 	findById(ticketId) {
-		const ticket = this.tickets.find((t) => t.ticketId === ticketId);
+		const ticket = this.tickets.find((t) => t.id === ticketId);
 
 		return ticket;
 	}
@@ -65,12 +65,12 @@ class MyDB {
 
 	/**
 	 *
-	 * @param {string} tickrtID
+	 * @param {string} ticketId
 	 * @param {{username: string, price: number}} ticketBody
 	 * @returns {Ticket}
 	 */
-	updateById(tickrtID, ticketBody) {
-		const ticket = this.findById(tickrtID);
+	updateById(ticketId, ticketBody) {
+		const ticket = this.findById(ticketId);
 		ticket.username = ticketBody.username;
 
 		ticket.username = ticketBody.username ?? ticket.username;
@@ -97,23 +97,42 @@ class MyDB {
 	}
 
 	/**
+	 * delete ticket by username
+	 * @param {string} username
+	 */
+	deleteByUser(username) {
+		const index = this.tickets.findIndex((user) => user.username === username);
+
+		if (index !== -1) {
+			this.tickets.splice(index, 1);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * raffel draw to find winner
 	 * @param {number} winnerCount
 	 * @returns {Array<Ticket>}
 	 */
 	draw(winnerCount) {
-		let indexes = new Array(winnerCount);
+		console.log(winnerCount, typeof winnerCount);
+		let indexes = new Array(Number(winnerCount));
 
 		for (let i = 0; i < indexes.length; i++) {
 			let index = Math.floor(Math.random() * this.tickets.length);
 
+			// console.log(`Before while-${[i]}: ${index}`);
+
 			while (indexes.includes(index)) {
 				index = Math.floor(Math.random() * this.tickets.length);
+				// console.log('while:', index);
 			}
-
-			index.push(index);
+			indexes[i] = index;
 		}
 
+		// console.log('Indexes', indexes);
 		const winners = indexes.map((index) => this.tickets[index]);
 		return winners;
 	}
