@@ -2,6 +2,15 @@ button {
 	padding: 0 5px;
 	margin: 0 2px;
 }
+h1,
+h4 {
+	margin: 5px 0;
+}
+
+.op,
+.ht {
+	margin-top: 15px;
+}
 
 table {
 	border-collapse: collapse;

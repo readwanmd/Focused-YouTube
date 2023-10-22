@@ -1,124 +1,113 @@
-/* eslint-disable react/prop-types */
 import { useState } from 'react';
-import './App.css';
-const data = [
-	{
-		id: 11011,
-		productName: 'Headphone',
-		price: 1500,
-		stock: 8,
-	},
-	{
-		id: 11012,
-		productName: 'Mouse',
-		price: 850,
-		stock: 5,
-	},
-	{
-		id: 11013,
-		productName: 'Keyboard',
-		price: 1000,
-		stock: 7,
-	},
-];
+import { v4 as uuidv4 } from 'uuid';
 
-const TableRow = ({
-	id,
-	name,
-	price,
-	stock,
-	quantity,
-	total,
-	increment,
-	decrement,
-}) => {
-	return (
-		<tr>
-			<td>{id}</td>
-			<td>{name}</td>
-			<td>{stock}</td>
-			<td>{price}</td>
-			<td>{quantity}</td>
-			<td>{total}</td>
-			<td>
-				<button onClick={() => increment(id)} disabled={stock === quantity}>
-					+
-				</button>
-				<button onClick={() => decrement(id)} disabled={quantity === 0}>
-					-
-				</button>
-			</td>
-		</tr>
-	);
+import './App.css';
+
+const initialInputState = {
+	a: 20,
+	b: 10,
 };
 
-function App() {
-	const [products, setProducts] = useState(
-		data.map((product) => ({
-			...product,
-			quantity: 0,
-			total: 0,
-		}))
-	);
-
-	const incrementQuantity = (id) => {
-		const newP = products.map((product) => {
-			if (product.id === id && product.stock > product.quantity) {
-				product.quantity++;
-				product.total = product.quantity * product.price;
-			}
-			return product;
+const App = () => {
+	const [inputState, setInputState] = useState({ ...initialInputState });
+	const [result, setResult] = useState(0);
+	const [histories, setHistories] = useState([]);
+	const handleInputFields = (e) => {
+		setInputState({
+			...inputState,
+			[e.target.name]: Number(e.target.value),
 		});
-		setProducts(newP);
-	};
-	const decrementQuantity = (id) => {
-		const newP = products.map((product) => {
-			if (product.id === id && product.quantity > 0) {
-				product.quantity--;
-				product.total = product.quantity * product.price;
-			}
-			return product;
-		});
-		setProducts(newP);
 	};
 
-	const totalAmount = products.reduce((acc, cur) => {
-		return acc + cur.total;
-	}, 0);
+	const handleOperations = (op) => {
+		if ((!inputState.a || !inputState.b) && op === '/') {
+			alert('Invalid input');
+			return;
+		}
+
+		const f = new Function(
+			'op',
+			`return ${inputState.a} ${op} ${inputState.b}`
+		);
+
+		// setResult(f(op));
+		const res = eval(`${inputState.a} ${op} ${inputState.b}`);
+		setResult(res);
+
+		const history = {
+			id: uuidv4(),
+			input: inputState,
+			operation: op,
+			date: new Date(),
+			result: res,
+		};
+
+		setHistories([history, ...histories]);
+	};
+
+	const handleRestore = (history) => {
+		setInputState({
+			...history.input,
+		});
+		setResult(history.result);
+	};
+
+	const handleClear = () => {
+		setInputState({ ...initialInputState });
+		setResult(0);
+	};
 
 	return (
-		<>
-			<h1>App</h1>
-
-			<table border="1">
-				<thead>
-					<tr>
-						<th>Id</th>
-						<th>Name</th>
-						<th>Stock</th>
-						<th>Price</th>
-						<th>Quantity</th>
-						<th>Total</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					{products.map((product) => (
-						<TableRow
-							key={product.id}
-							{...product}
-							increment={incrementQuantity}
-							decrement={decrementQuantity}
-						/>
-					))}
-					<tr>
-						<td colSpan="5">Total Amount</td>
-						<td colSpan="2">{totalAmount} BDT</td>
-					</tr>
-				</tbody>
-			</table>
-		</>
+		<div style={{ width: '50%', margin: '0 auto' }}>
+			<h1>Result: {result}</h1>
+			<div>
+				<h4>Inputs</h4>
+				<input
+					type="number"
+					name="a"
+					value={inputState.a}
+					onChange={handleInputFields}
+				/>
+				<input
+					type="number"
+					name="b"
+					value={inputState.b}
+					onChange={handleInputFields}
+				/>
+			</div>
+			<div className="op">
+				<h4>Operations</h4>
+				<button onClick={() => handleOperations('+')}>+</button>
+				<button onClick={() => handleOperations('-')}>-</button>
+				<button onClick={() => handleOperations('*')}>*</button>
+				<button onClick={() => handleOperations('/')}>/</button>
+				<button onClick={handleClear}>Clear</button>
+			</div>
+			<div>
+				<h4 className="ht">History</h4>
+				{histories.length === 0 ? (
+					<p>
+						<small>There is no history available</small>
+					</p>
+				) : (
+					histories.map((history) => (
+						<ul key={history.id}>
+							<li>
+								<div style={{ display: 'flex', gap: '1rem' }}>
+									<p>
+										{`${history.input.a} ${history.operation}	${history.input.b} = ${history.result} `}
+									</p>
+									<button onClick={() => handleRestore(history)}>
+										Restore
+									</button>
+								</div>
+								<small>{`${history.date.toLocaleDateString()} - ${history.date.toLocaleTimeString()}`}</small>
+							</li>
+						</ul>
+					))
+				)}
+			</div>
+		</div>
 	);
-}
-
+};
 export default App;
