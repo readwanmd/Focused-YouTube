@@ -1,4 +1,6 @@
 import useApp from './App_Hook';
+import Mistakes1 from './Mistakes1';
+import Mistakes2 from './Mistakes2';
 
 const App = () => {
 	const { max, count, user, loading, handlePrevious, handleNext } = useApp();
@@ -26,6 +28,9 @@ const App = () => {
 					Next
 				</button>
 			</div>
+
+			<Mistakes1 />
+			<Mistakes2 />
 		</div>
 	);
 };
