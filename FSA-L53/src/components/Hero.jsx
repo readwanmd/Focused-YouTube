@@ -30,7 +30,7 @@ const Hero = () => {
 						<Grid container spacing={1} justifyContent="center">
 							<Grid item>
 								<Button variant="contained" color="primary">
-									See my Photos
+									Primary CTA
 								</Button>
 							</Grid>
 							<Grid item>

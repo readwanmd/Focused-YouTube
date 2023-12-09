@@ -1,118 +1,43 @@
 import { PhotoCamera } from '@mui/icons-material';
-import { AppBar, Pagination, Toolbar, Typography } from '@mui/material';
+import {
+	AppBar,
+	Box,
+	Container,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Pagination,
+	Select,
+	Toolbar,
+	Typography,
+} from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Hero from './components/Hero';
 import ImageCard from './components/ImageCard';
 import useStyles from './styles';
 
-const cards = [
-	'city',
-	'technology',
-	'food',
-	'plant',
-	'winter',
-	'productivity',
-	'Bridges',
-	'travel',
-	'graffiti',
-	'Gate',
-	'building',
-	'street',
-	'forest',
-	'summer',
-	'flower',
-	'efficiency',
-	'Skyscrapers',
-	'journey',
-	'murals',
-	'Arch',
-	'skyscraper',
-	'avenue',
-	'coast',
-	'structure',
-	'diversity',
-	'carnival',
-	'cuisine',
-	'festivity',
-	'past',
-	'locale',
-	'artwork',
-	'lane',
-	'waterway',
-	'bistro',
-	'melody',
-	'crowds',
-	'occasion',
-	'transit',
-	'trade',
-	'foliage',
-	'silhouette',
-	'heritage',
-	'fashion',
-	'progress',
-	'wildlife',
-	'courtyard',
-	'business',
-	'space',
-	'outline',
-	'activity',
-	'township',
-	'mosaic',
-	'passage',
-	'prosperity',
-	'gathering',
-	'innovation',
-	'scenery',
-	'plaza',
-	'milestone',
-	'reflection',
-	'way of life',
-	'custom',
-	'variation',
-	'destination',
-	'nightlife',
-	'promenade',
-	'composition',
-	'locale',
-	'roadway',
-	'ambiance',
-];
+import { cards } from './constants';
 
 const App = () => {
 	const classes = useStyles();
-	const [page, setPage] = useState({ start: 0, end: 10 });
+	const [postPerPage, setPostPerPage] = useState(5);
+	const [page, setPage] = useState({ start: 0, end: postPerPage });
+
 	const handleChange = (e, p) => {
-		switch (p) {
-			case 1:
-				setPage({ start: 0, end: 10 });
-				break;
-			case 2:
-				setPage({ start: 10, end: 20 });
-				break;
-			case 3:
-				setPage({ start: 20, end: 30 });
-				break;
-			case 4:
-				setPage({ start: 30, end: 40 });
-				break;
-			case 5:
-				setPage({ start: 40, end: 50 });
-				break;
-			case 6:
-				setPage({ start: 50, end: 60 });
-				break;
-			case 7:
-				setPage({ start: 60, end: 70 });
-				break;
-
-			default:
-				break;
-		}
-
-		console.log(page.start);
+		let indexOfLast = postPerPage * p;
+		let indexOfFirst = indexOfLast - postPerPage;
+		setPage({ start: indexOfFirst, end: indexOfLast });
 	};
+
+	const handleChangePostPerPage = (event) => {
+		setPostPerPage(event.target.value);
+	};
+
+	useEffect(() => {
+		setPage({ start: 0, end: postPerPage });
+	}, [postPerPage]);
 
 	return (
 		<>
@@ -126,10 +51,36 @@ const App = () => {
 
 			<main>
 				<Hero />
+
+				<Container
+					sx={{
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+					}}
+				>
+					<Box sx={{ minWidth: 200, mt: 4 }}>
+						<FormControl fullWidth>
+							<InputLabel id="demo-simple-select-label">
+								Post per page
+							</InputLabel>
+							<Select
+								value={postPerPage}
+								label="Post Per Page"
+								onChange={handleChangePostPerPage}
+							>
+								<MenuItem value={5}>Five</MenuItem>
+								<MenuItem value={10}>Ten</MenuItem>
+								<MenuItem value={14}>Fourteen</MenuItem>
+							</Select>
+						</FormControl>
+					</Box>
+				</Container>
+
 				<ImageCard cards={cards.slice(page.start, page.end)} />
 
 				<Pagination
-					count={7}
+					count={cards.length / postPerPage}
 					color="primary"
 					className={classes.pagination}
 					onChange={handleChange}
