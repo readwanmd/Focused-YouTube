@@ -1,17 +1,34 @@
-import { useEffect } from 'react';
+import { Container, CssBaseline, Grid } from '@mui/material';
+import Navbar from './components/Navbar';
+import PlaylistCardItem from './components/PlaylistCardItem';
 import usePlaylist from './hooks/usePlaylist';
 
 const App = () => {
-	const { getPlaylistById, playlists, error, loading } = usePlaylist();
+	const { error, loading, playlists, getPlaylistById } = usePlaylist();
 
-	useEffect(() => {
-		getPlaylistById('PL_XxuZqN0xVD0op-QDEgyXFA4fRPChvkl');
-	}, []);
+	const playlistArray = Object.values(playlists);
 
-	console.log(playlists);
-	console.log('error', error);
-	console.log('loading', loading);
-
-	return <div>App</div>;
+	return (
+		<>
+			<CssBaseline />
+			<Navbar getPlaylistById={getPlaylistById} />
+			<Container>
+				<h1>Hello World!</h1>
+				<Grid container spacing={3}>
+					{playlistArray.length > 0 &&
+						playlistArray.map((item) => (
+							<Grid item xs={12} sm={6} md={4}>
+								{' '}
+								<PlaylistCardItem
+									playlistThumbnail={item.playlistThumbnails}
+									channelTitle={item.channelTitle}
+									playlistTitle={item.playlistTitle}
+								/>
+							</Grid>
+						))}
+				</Grid>
+			</Container>
+		</>
+	);
 };
 export default App;
