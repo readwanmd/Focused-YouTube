@@ -542,8 +542,8 @@ video {
 
 .light-dark_mode {
   position: absolute;
-  top: 0.5rem;
   right: 0.5rem;
+  top: 0.5rem;
   border-radius: 0.5rem;
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
