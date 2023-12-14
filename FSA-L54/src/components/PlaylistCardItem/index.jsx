@@ -7,11 +7,13 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
 
 const PlaylistCardItem = ({
 	playlistThumbnail,
 	playlistTitle,
 	channelTitle,
+	playlistId,
 }) => {
 	return (
 		<Card
@@ -34,9 +36,10 @@ const PlaylistCardItem = ({
 				</Typography>
 			</CardContent>
 			<Box sx={{ flexGrow: 1 }}></Box>
-			<CardActions>
+			<CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
 				<Button
-					component="label"
+					to={`/player/${playlistId}`}
+					component={Link}
 					variant="outlined"
 					startIcon={<PlayArrowIcon />}
 				>

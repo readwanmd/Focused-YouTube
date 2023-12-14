@@ -1,9 +1,11 @@
+import { Link } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import PlaylistForm from '../playlist-form';
 
 const Navbar = ({ getPlaylistById }) => {
@@ -26,9 +28,15 @@ const Navbar = ({ getPlaylistById }) => {
 			<Box sx={{ flexGrow: 1 }}>
 				<AppBar position="static">
 					<Toolbar>
-						<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-							Focused Youtube
-						</Typography>
+						<Link
+							to={'/'}
+							component={RouterLink}
+							sx={{ flexGrow: 1, textDecoration: 'none', color: 'white' }}
+						>
+							<Typography variant="h6" component="div">
+								Focused Youtube
+							</Typography>
+						</Link>
 						<Button
 							color="inherit"
 							style={{ backgroundColor: '#ffffff', color: '#000000' }}
