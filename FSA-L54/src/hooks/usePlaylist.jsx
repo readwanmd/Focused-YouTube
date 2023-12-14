@@ -5,7 +5,7 @@ import storage from '../utils/Storage';
 const STORAGE_KEY = 'fy__playlist-state';
 const INIT_STATE = {
 	playlists: {},
-	recentPlaylists: [],
+	recents: [],
 	favorites: [],
 };
 
@@ -63,7 +63,7 @@ const usePlaylist = () => {
 	const addToRecent = (playlistId) => {
 		setState((prev) => ({
 			...prev,
-			recentPlaylists: [...prev, playlistId],
+			recents: [...prev, playlistId],
 		}));
 	};
 
@@ -74,7 +74,7 @@ const usePlaylist = () => {
 	return {
 		playlists: state.playlists,
 		favorites: getPlaylistsByIds(state.favorites),
-		recentPlaylists: getPlaylistsByIds(state.recentPlaylists),
+		recents: getPlaylistsByIds(state.recents),
 		getPlaylistById,
 		addToRecent,
 		addToFavorites,

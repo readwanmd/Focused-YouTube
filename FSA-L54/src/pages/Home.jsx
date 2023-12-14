@@ -5,7 +5,7 @@ const Home = ({ playlists }) => {
 
 	return (
 		<Container>
-			<Grid container spacing={3}>
+			<Grid container spacing={3} mb={4}>
 				{playlistArray.length > 0 &&
 					playlistArray.map((item) => (
 						<Grid key={item.playlistId} item xs={12} sm={6} md={4}>
@@ -14,6 +14,7 @@ const Home = ({ playlists }) => {
 								playlistThumbnail={item.playlistThumbnails}
 								channelTitle={item.channelTitle}
 								playlistTitle={item.playlistTitle}
+								totalVideos={item.playlistItems.length}
 							/>
 						</Grid>
 					))}

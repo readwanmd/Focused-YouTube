@@ -25,8 +25,8 @@ const Navbar = ({ getPlaylistById }) => {
 
 	return (
 		<>
-			<Box sx={{ flexGrow: 1 }}>
-				<AppBar position="static">
+			<Box sx={{ flexGrow: 1, mb: '85px' }}>
+				<AppBar position="fixed">
 					<Toolbar>
 						<Link
 							to={'/'}
@@ -47,6 +47,7 @@ const Navbar = ({ getPlaylistById }) => {
 					</Toolbar>
 				</AppBar>
 			</Box>
+
 			<PlaylistForm
 				open={open}
 				handleClose={handleClose}

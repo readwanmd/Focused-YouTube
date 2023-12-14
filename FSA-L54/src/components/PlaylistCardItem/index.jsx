@@ -1,11 +1,10 @@
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import { Delete, Favorite, FavoriteBorder } from '@mui/icons-material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Checkbox } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 
@@ -14,6 +13,7 @@ const PlaylistCardItem = ({
 	playlistTitle,
 	channelTitle,
 	playlistId,
+	totalVideos,
 }) => {
 	return (
 		<Card
@@ -30,9 +30,35 @@ const PlaylistCardItem = ({
 				alt={playlistTitle}
 			/>
 			<CardContent>
-				<Typography variant="h6">{playlistTitle}</Typography>
-				<Typography variant="body2" color="text.secondary">
-					{channelTitle}
+				<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+					<Typography
+						variant="caption"
+						sx={{
+							padding: '5px 10px',
+							background: '#1976D2',
+							color: '#fff',
+							maxWidth: 'fit-content',
+							borderRadius: '15px',
+						}}
+					>
+						{channelTitle}
+					</Typography>
+					<Typography
+						variant="caption"
+						sx={{
+							padding: '5px 10px',
+							background: '#05203b',
+							color: '#fff',
+							maxWidth: 'fit-content',
+							borderRadius: '15px',
+						}}
+					>
+						{totalVideos} Videos
+					</Typography>
+				</Box>
+
+				<Typography variant="h6" mt={2}>
+					{playlistTitle}
 				</Typography>
 			</CardContent>
 			<Box sx={{ flexGrow: 1 }}></Box>
@@ -45,9 +71,12 @@ const PlaylistCardItem = ({
 				>
 					Play
 				</Button>
-				<IconButton aria-label="add to favorites">
-					<FavoriteIcon />
-				</IconButton>
+
+				<Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+
+				<Button variant="outlined" color="error" startIcon={<Delete />}>
+					Delete
+				</Button>
 			</CardActions>
 		</Card>
 	);
