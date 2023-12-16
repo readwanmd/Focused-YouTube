@@ -82,6 +82,7 @@ console.log(store.getState());
 store.dispatch(incriment(1));
 store.dispatch(addHistory({ action: INCTEMENT, count: 1 }));
 store.dispatch(incriment(1));
+store.dispatch(decriment(2));
 store.dispatch(addHistory({ action: INCTEMENT, count: 1 }));
 store.dispatch(clearHistory());
 
