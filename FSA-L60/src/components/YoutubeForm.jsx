@@ -7,13 +7,20 @@ const YoutubeForm = () => {
 		control,
 		handleSubmit,
 		formState: { errors },
-	} = useForm();
+	} = useForm({
+		defaultValues: {
+			username: '',
+			email: '',
+			password: '',
+			social: {
+				facebook: '',
+				twitter: '',
+			},
+			phone: ['', ''],
+		},
+	});
 
-	console.log(errors);
-
-	const onSubmit = (data) => {
-		console.log('Form Submit', data);
-	};
+	const onSubmit = (data) => console.log(data);
 
 	return (
 		<div>
@@ -34,6 +41,7 @@ const YoutubeForm = () => {
 					/>
 					<p className="error-message">{errors.username?.message}</p>
 				</div>
+
 				<div className="form-control">
 					<label htmlFor="email">Email</label>
 					<input
@@ -53,32 +61,59 @@ const YoutubeForm = () => {
 										'enter a different email address'
 									);
 								},
-								unacceptedEmail: (fieldValue) => {
-									return (
-										fieldValue.endsWith('baddomain.com') &&
-										'this domain is not acceptable'
-									);
-								},
 							},
 						})}
 					/>
 					<p className="error-message">{errors.email?.message}</p>
 				</div>
-				<div className="form-control">
-					<label htmlFor="channel">Channel</label>
 
+				<div className="form-control">
+					<label htmlFor="password">Password</label>
 					<input
-						type="text"
-						id="channel"
-						className={`${errors.channel?.message ? 'error' : ''}`}
-						{...register('channel', {
+						type="password"
+						id="password"
+						className={`${errors.password?.message ? 'error' : ''}`}
+						{...register('password', {
 							required: {
 								value: true,
-								message: 'channel is required',
+								message: 'Password is required',
+							},
+							minLength: {
+								value: 6,
+								message: 'Password must be at least 6 characters',
+							},
+							pattern: {
+								value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/,
+								message:
+									'At least 1 uppercase, 1 lowercase letter and a number',
 							},
 						})}
 					/>
-					<p className="error-message">{errors.channel?.message}</p>
+					<p className="error-message">{errors.password?.message}</p>
+				</div>
+
+				<div className="form-control">
+					<label htmlFor="facebook">Facebook Username</label>
+					<input type="text" id="facebook" {...register('social.facebook')} />
+				</div>
+
+				<div className="form-control">
+					<label htmlFor="twitter">Twitter Username</label>
+					<input type="text" id="twitter" {...register('social.twitter')} />
+				</div>
+
+				<div className="form-control">
+					<label htmlFor="primary-phone">Phone No</label>
+					<input type="text" id="primary-phone" {...register('phone.0')} />
+				</div>
+
+				<div className="form-control">
+					<label htmlFor="primary-phone">Secondary Phone No</label>
+					<input
+						type="text"
+						id="secondary-phone"
+						{...register('phone.1', { valueAsNumber: true })}
+					/>
 				</div>
 
 				<button>Submit</button>
