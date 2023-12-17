@@ -1,16 +1,17 @@
-import { useSelector } from 'react-redux';
+import { useStoreState } from 'easy-peasy';
+
 const History = () => {
-	const history = useSelector((state) => state.history);
+	const history = useStoreState((state) => state.history);
 
 	return (
 		<div>
-			{history.length > 0 ? (
+			{history.items.length > 0 ? (
 				<h4>
 					Histories:
 					<ol>
-						{history.map((item) => (
+						{history.items.map((item) => (
 							<li key={item.id}>
-								{item.action} - {item.time}
+								{item.action} - {item.count} at {item.time}
 							</li>
 						))}
 					</ol>

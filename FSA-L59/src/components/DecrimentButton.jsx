@@ -1,12 +1,11 @@
-import { useDispatch } from 'react-redux';
-import { DECREMENT, addHistory, decriment } from '../store';
+import { useStoreActions } from 'easy-peasy';
 
 const DecrimentButton = () => {
-	const dispatch = useDispatch();
+	const { count, history } = useStoreActions((actions) => actions);
 
 	const handleClick = () => {
-		dispatch(decriment(1));
-		dispatch(addHistory({ action: DECREMENT, count: 1 }));
+		count.decrement(1);
+		history.addHistory({ action: 'decrement', count: 1 });
 	};
 
 	return <button onClick={handleClick}>-</button>;

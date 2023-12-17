@@ -12,10 +12,8 @@ function App() {
 			<div>
 				<IncrimenntButton />
 				<DecrimentButton />
-
 				<ClearHistory />
 			</div>
-
 			<History />
 		</>
 	);

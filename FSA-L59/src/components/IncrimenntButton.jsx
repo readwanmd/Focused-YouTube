@@ -1,12 +1,11 @@
-import { useDispatch } from 'react-redux';
-import { INCREMENT, addHistory, incriment } from '../store';
+import { useStoreActions } from 'easy-peasy';
 
 const IncrimenntButton = () => {
-	const dispatch = useDispatch();
+	const { count, history } = useStoreActions((actions) => actions);
 
 	const handleClick = () => {
-		dispatch(incriment(1));
-		dispatch(addHistory({ action: INCREMENT, count: 1 }));
+		count.increment(1);
+		history.addHistory({ action: 'increment', count: 1 });
 	};
 
 	return <button onClick={handleClick}>+</button>;

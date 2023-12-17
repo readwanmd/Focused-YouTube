@@ -1,22 +1,27 @@
-import { useDispatch } from 'react-redux';
-import { CLEAR_COUNT, addHistory, clearCount, clearHistory } from '../store';
+import { useStoreActions } from 'easy-peasy';
 
 const ClearHistory = () => {
-	const dispatch = useDispatch();
+	const { count, history } = useStoreActions((actions) => actions);
 
 	const handleClearHistory = () => {
-		dispatch(clearHistory());
+		history.clearHistory();
 	};
 
 	const handleClearCount = () => {
-		dispatch(clearCount());
-		dispatch(addHistory({ action: CLEAR_COUNT }));
+		count.resetCount();
+	};
+
+	const handleReset = () => {
+		history.clearHistory();
+		count.resetCount();
 	};
 
 	return (
 		<div>
 			<button onClick={handleClearCount}>Clear Count</button>
 			<button onClick={handleClearHistory}>Clear History</button>
+			<br />
+			<button onClick={handleReset}>Reset</button>
 		</div>
 	);
 };
