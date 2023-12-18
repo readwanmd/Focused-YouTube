@@ -1,10 +1,9 @@
-import './App.css';
-import YoutubeForm from './components/YoutubeForm';
+import LoginForm from './components/muiLogin';
 
 function App() {
 	return (
 		<>
-			<YoutubeForm />
+			<LoginForm />
 		</>
 	);
 }
