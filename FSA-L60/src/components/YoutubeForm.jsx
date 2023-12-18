@@ -1,12 +1,14 @@
 import { DevTool } from '@hookform/devtools';
-import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
 
 const YoutubeForm = () => {
 	const {
 		register,
 		control,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors, isDirty, isValid, isSubmitSuccessful },
+		reset,
 	} = useForm({
 		defaultValues: {
 			username: '',
@@ -17,10 +19,28 @@ const YoutubeForm = () => {
 				twitter: '',
 			},
 			phone: ['', ''],
+			phNumbers: [{ number: '' }],
+			age: 0,
+			dob: new Date(),
 		},
 	});
 
-	const onSubmit = (data) => console.log(data);
+	const onSubmit = (data) => {
+		console.log(data);
+		console.log(isSubmitSuccessful);
+		// isSubmitSuccessful && reset();
+	};
+
+	const { fields, append, remove } = useFieldArray({
+		name: 'phNumbers',
+		control,
+	});
+
+	useEffect(() => {
+		if (isSubmitSuccessful) {
+			reset();
+		}
+	}, [isSubmitSuccessful, reset]);
 
 	return (
 		<div>
@@ -116,7 +136,65 @@ const YoutubeForm = () => {
 					/>
 				</div>
 
-				<button>Submit</button>
+				<div>
+					<label htmlFor="">lists of phone numbers</label>
+					<div>
+						{fields.map((field, i) => {
+							return (
+								<div className="form-control dynamic-field" key={field.id}>
+									<input type="text" {...register(`phNumbers.${i}.number`)} />
+
+									{i > 0 && (
+										<button
+											type="button"
+											className="dynamic-field__remove"
+											onClick={() => remove(i)}
+										>
+											Remove
+										</button>
+									)}
+								</div>
+							);
+						})}
+						<button type="button" onClick={() => append({ number: '' })}>
+							Add Phone Number
+						</button>
+					</div>
+				</div>
+
+				<div className="form-control">
+					<label htmlFor="age">Age</label>
+					<input
+						type="number"
+						id="age"
+						{...register('age', {
+							valueAsNumber: true,
+							disabled: true,
+						})}
+					/>
+				</div>
+
+				<div className="form-control">
+					<label htmlFor="dob">Date of birth</label>
+					<input
+						type="date"
+						id="dob"
+						{...register('dob', {
+							required: {
+								value: true,
+								message: 'Date of birth is required',
+							},
+							valueAsDate: true,
+						})}
+					/>
+					<p className="error-message">{errors.dob?.message}</p>
+				</div>
+
+				<button
+				// disabled={!isDirty || !isValid}
+				>
+					Submit
+				</button>
 			</form>
 
 			<DevTool control={control} />

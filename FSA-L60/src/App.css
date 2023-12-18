@@ -26,6 +26,11 @@ input[type='date'] {
 	border-radius: 4px;
 }
 
+input:disabled {
+	background: #3b3b3b;
+	opacity: 0.3;
+}
+
 input:focus {
 	outline: none;
 }
@@ -38,8 +43,25 @@ input:focus {
 	color: #d62c65;
 	font-size: 12px;
 	text-align: left;
+	text-transform: lowercase;
+}
+
+.error-message:first-letter {
+	text-transform: uppercase;
 }
 
 .form-control {
 	margin-bottom: 20px;
+}
+
+.dynamic-field {
+	position: relative;
+}
+
+.dynamic-field__remove {
+	position: absolute;
+	top: 1px;
+	right: 1px;
+	padding: 5px 1.2em;
+	border-radius: 4px;
 }
