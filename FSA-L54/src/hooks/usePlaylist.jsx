@@ -42,8 +42,8 @@ const usePlaylist = () => {
 			setState((prev) => ({
 				...prev,
 				playlists: {
-					...prev.playlists,
 					[playlistId]: playlist,
+					...prev.playlists,
 				},
 			}));
 		} catch (err) {
