@@ -18,11 +18,15 @@ const PlaylistCardItem = ({
 	totalVideos,
 }) => {
 	const [checked, setChecked] = useState(false);
-	const { removePlaylist } = useStoreActions((actions) => actions.playlists);
+	const { addToFavorite, removeFromFavorite } = useStoreActions(
+		(actions) => actions.favorites
+	);
 
-	// useEffect(() => {
-	// 	checked ? removeFromFavorite(playlistId) : addToFavorite(playlistId);
-	// }, [checked]);
+	const handleChange = () => {
+		setChecked(!checked);
+
+		checked ? removeFromFavorite(playlistId) : addToFavorite(playlistId);
+	};
 
 	return (
 		<Card
@@ -69,8 +73,6 @@ const PlaylistCardItem = ({
 				<Typography variant="h6" mt={2}>
 					{playlistTitle}
 				</Typography>
-
-				<p>{checked ? 'Checked' : 'Not checked'}</p>
 			</CardContent>
 			<Box sx={{ flexGrow: 1 }}></Box>
 			<CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -87,7 +89,7 @@ const PlaylistCardItem = ({
 					checked={checked}
 					icon={<FavoriteBorder />}
 					checkedIcon={<Favorite />}
-					onChange={() => setChecked(!checked)}
+					onChange={handleChange}
 				/>
 
 				<Button

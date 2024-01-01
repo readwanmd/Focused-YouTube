@@ -6,7 +6,6 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Player from './pages/Player';
-const playlistId = 'PL_XxuZqN0xVD0op-QDEgyXFA4fRPChvkl';
 
 const App = () => {
 	// const { error, loading, playlistssss, getPlaylistById } = usePlaylist();

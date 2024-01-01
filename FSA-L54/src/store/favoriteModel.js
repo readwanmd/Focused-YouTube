@@ -4,6 +4,8 @@ const favoriteModel = persist({
 	items: [],
 
 	addToFavorite: action((state, playlistId) => {
+		if (state.items.includes(playlistId)) return;
+
 		state.items.push(playlistId);
 	}),
 
