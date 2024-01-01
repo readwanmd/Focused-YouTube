@@ -23,6 +23,11 @@ Focused-YouTube is a distraction-free YouTube playlist player that allows you to
 
 ![component tree](./public/componentsTree.png)
 
+## Screenshots
+
+![screenshots](./public/home.png)
+![screenshots](./public/player.png)
+
 ## Getting Started
 
 ### Prerequisites
