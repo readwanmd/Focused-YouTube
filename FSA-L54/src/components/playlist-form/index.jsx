@@ -6,9 +6,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
+import { useStoreActions } from 'easy-peasy';
 import { useState } from 'react';
+import extractPlaylistId from '../../utils/extractPlaylistId';
 
-const PlaylistForm = ({ open, handleClose, getPlaylistId }) => {
+const PlaylistForm = ({ open, handleClose }) => {
+	// const count = useStoreState((state) => state.playlists);
+	// console.log(count);
+
+	const playlist = useStoreActions((actions) => actions.playlists);
+
 	const [state, setState] = useState('');
 	const [notify, setNotify] = useState({
 		open: false,
@@ -16,8 +23,12 @@ const PlaylistForm = ({ open, handleClose, getPlaylistId }) => {
 		type: '',
 	});
 
+	const handleChange = (e) => {
+		setState(e.target.value);
+	};
+
 	const handleSubmit = (e) => {
-		// handle url latter
+		console.log(state);
 		if (!state) {
 			setNotify({
 				open: true,
@@ -25,7 +36,10 @@ const PlaylistForm = ({ open, handleClose, getPlaylistId }) => {
 				type: 'warning',
 			});
 		} else {
-			getPlaylistId(state);
+			if (state.includes('youtube.com')) {
+				playlist.getPlaylist(extractPlaylistId(state));
+			}
+			playlist.getPlaylist(state);
 			setState('');
 			handleClose();
 			setNotify({
@@ -53,7 +67,7 @@ const PlaylistForm = ({ open, handleClose, getPlaylistId }) => {
 						type="text"
 						fullWidth
 						variant="standard"
-						onChange={(e) => setState(e.target.value)}
+						onChange={handleChange}
 					/>
 				</DialogContent>
 				<DialogActions>

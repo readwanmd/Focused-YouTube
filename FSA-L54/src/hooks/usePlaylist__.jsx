@@ -17,7 +17,7 @@ const usePlaylist = () => {
 
 	useEffect(() => {
 		const state = storage.get(STORAGE_KEY);
-		console.log('localData', state);
+		// console.log('localData', state);
 		if (state) {
 			setState({ ...state });
 		}

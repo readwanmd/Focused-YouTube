@@ -2,22 +2,37 @@ import { action, persist, thunk } from 'easy-peasy';
 import getPlaylist from '../API';
 
 const playlistModel = persist({
-	items: [],
-	id: '',
-	title: '',
-	description: '',
-	thumbnail: '',
-	channelId: '',
-	channelTitle: '',
+	data: {},
+	error: '',
+	isLoading: false,
 
-	setPlaylistData: action((state, payload) => {
-		state = { ...payload };
-		return state;
+	addPlaylist: action((state, payload) => {
+		state.data[payload.playlistId] = payload;
 	}),
 
-	getPlaylistData: thunk(async ({ setPlaylistData }, payload) => {
-		const data = await getPlaylist(payload);
-		setPlaylistData(data);
+	setLoading: action((state, payload) => {
+		state.isLoading = payload;
+	}),
+
+	setError: action((state, payload) => {
+		state.error = payload;
+	}),
+
+	getPlaylist: thunk(async (action, playlistId, { getState }) => {
+		if (getState().data[playlistId]) {
+			console.log('api call called');
+			return;
+		}
+
+		action.setLoading(true);
+		try {
+			const playlist = await getPlaylist(playlistId);
+			action.addPlaylist(playlist);
+		} catch (error) {
+			action.setError(error.response?.data?.message || 'Something went wrong');
+		} finally {
+			action.setLoading(false);
+		}
 	}),
 });
 

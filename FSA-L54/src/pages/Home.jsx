@@ -1,7 +1,7 @@
 import { Container, Grid } from '@mui/material';
 import PlaylistCardItem from '../components/PlaylistCardItem';
 const Home = ({ playlists }) => {
-	const playlistArray = Object.values(playlists);
+	const playlistArray = Object.values(playlists.data);
 
 	return (
 		<Container>

@@ -6,6 +6,8 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import { useStoreActions } from 'easy-peasy';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const PlaylistCardItem = ({
@@ -15,6 +17,13 @@ const PlaylistCardItem = ({
 	playlistId,
 	totalVideos,
 }) => {
+	const [checked, setChecked] = useState(false);
+	const { removePlaylist } = useStoreActions((actions) => actions.playlists);
+
+	// useEffect(() => {
+	// 	checked ? removeFromFavorite(playlistId) : addToFavorite(playlistId);
+	// }, [checked]);
+
 	return (
 		<Card
 			sx={{
@@ -60,6 +69,8 @@ const PlaylistCardItem = ({
 				<Typography variant="h6" mt={2}>
 					{playlistTitle}
 				</Typography>
+
+				<p>{checked ? 'Checked' : 'Not checked'}</p>
 			</CardContent>
 			<Box sx={{ flexGrow: 1 }}></Box>
 			<CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -72,9 +83,19 @@ const PlaylistCardItem = ({
 					Play
 				</Button>
 
-				<Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+				<Checkbox
+					checked={checked}
+					icon={<FavoriteBorder />}
+					checkedIcon={<Favorite />}
+					onChange={() => setChecked(!checked)}
+				/>
 
-				<Button variant="outlined" color="error" startIcon={<Delete />}>
+				<Button
+					onClick={() => removePlaylist(playlistId)}
+					variant="outlined"
+					color="error"
+					startIcon={<Delete />}
+				>
 					Delete
 				</Button>
 			</CardActions>

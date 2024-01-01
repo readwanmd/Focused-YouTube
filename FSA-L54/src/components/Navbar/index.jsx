@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import PlaylistForm from '../playlist-form';
 
-const Navbar = ({ getPlaylistById }) => {
+const Navbar = () => {
 	const [open, setOpen] = useState(false);
 
 	const handleClickOpen = () => {
@@ -48,11 +48,7 @@ const Navbar = ({ getPlaylistById }) => {
 				</AppBar>
 			</Box>
 
-			<PlaylistForm
-				open={open}
-				handleClose={handleClose}
-				getPlaylistId={getPlaylistId}
-			/>
+			<PlaylistForm open={open} handleClose={handleClose} />
 		</>
 	);
 };
