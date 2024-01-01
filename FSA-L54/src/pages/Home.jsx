@@ -11,13 +11,12 @@ import {
 import { useStoreState } from 'easy-peasy';
 import PlaylistCardItem from '../components/PlaylistCardItem';
 const Home = ({ playlists }) => {
-	const playlistArray = Object.values(playlists.data);
+	let playlistArray = Object.values(playlists.data);
 	const favoriteItems = useStoreState((state) => state.favorites.items);
 
 	const favoriteArray = Object.values(favoriteItems);
 
-	// console.log(playlists.data[favoriteItems[0]]);
-	console.log(favoriteArray);
+	console.log('Favorite Array:', favoriteArray);
 
 	return (
 		<Container>
@@ -27,7 +26,7 @@ const Home = ({ playlists }) => {
 						<Typography variant="h5">Favorites</Typography>
 					</AccordionSummary>
 					<AccordionDetails>
-						{favoriteArray.length === 0 && (
+						{(!favoriteArray || favoriteArray.length === 0) && (
 							<Typography variant="p">There is no favorites yet!</Typography>
 						)}
 
@@ -36,13 +35,14 @@ const Home = ({ playlists }) => {
 								favoriteArray.map((item) => (
 									<Grid key={item} item xs={12} sm={6} md={4}>
 										<PlaylistCardItem
-											playlistId={playlists.data[item].playlistId}
+											playlistId={playlists.data[item]?.playlistId}
 											playlistThumbnail={
-												playlists.data[item].playlistThumbnails
+												playlists.data[item]?.playlistThumbnails
 											}
-											channelTitle={playlists.data[item].channelTitle}
-											playlistTitle={playlists.data[item].playlistTitle}
-											totalVideos={playlists.data[item].playlistItems.length}
+											channelTitle={playlists.data[item]?.channelTitle}
+											playlistTitle={playlists.data[item]?.playlistTitle}
+											totalVideos={playlists.data[item]?.playlistItems.length}
+											favoriteArray={favoriteArray}
 										/>
 									</Grid>
 								))}
@@ -57,7 +57,7 @@ const Home = ({ playlists }) => {
 						<Typography variant="h5">Playlists</Typography>
 					</AccordionSummary>
 					<AccordionDetails>
-						{playlistArray.length === 0 && (
+						{(!playlistArray || playlistArray.length === 0) && (
 							<Typography variant="p">There is no playlists yet!</Typography>
 						)}
 						<Grid container spacing={3} mb={4}>
@@ -70,6 +70,7 @@ const Home = ({ playlists }) => {
 											channelTitle={item.channelTitle}
 											playlistTitle={item.playlistTitle}
 											totalVideos={item.playlistItems.length}
+											favoriteArray={favoriteArray}
 										/>
 									</Grid>
 								))}

@@ -16,16 +16,23 @@ const PlaylistCardItem = ({
 	channelTitle,
 	playlistId,
 	totalVideos,
+	favoriteArray,
 }) => {
 	const [checked, setChecked] = useState(false);
 	const { addToFavorite, removeFromFavorite } = useStoreActions(
 		(actions) => actions.favorites
 	);
+	const { deletePlaylist } = useStoreActions((actions) => actions.playlists);
 
 	const handleChange = () => {
 		setChecked(!checked);
 
 		checked ? removeFromFavorite(playlistId) : addToFavorite(playlistId);
+	};
+
+	const handleDelete = (playlistId) => {
+		removeFromFavorite(playlistId);
+		deletePlaylist(playlistId);
 	};
 
 	return (
@@ -86,14 +93,14 @@ const PlaylistCardItem = ({
 				</Button>
 
 				<Checkbox
-					checked={checked}
+					checked={favoriteArray?.includes(playlistId) ? true : false}
 					icon={<FavoriteBorder />}
 					checkedIcon={<Favorite />}
 					onChange={handleChange}
 				/>
 
 				<Button
-					onClick={() => removePlaylist(playlistId)}
+					onClick={() => handleDelete(playlistId)}
 					variant="outlined"
 					color="error"
 					startIcon={<Delete />}
